@@ -2,6 +2,8 @@
 """ Console Module """
 import cmd
 import sys
+import uuid
+from datetime import datetime
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -124,6 +126,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         dictionary = {}
+        new_instance = HBNBCommand.classes[list_param[0]]()
 
         for param in list_param[1:]:
             key, value = param.split('=', 1)
@@ -137,10 +140,10 @@ class HBNBCommand(cmd.Cmd):
 
             if '.' in value:
                 value = float(value)
-            
-            dictionary[key] = value
-        
-        new_instance = HBNBCommand.classes[list_param[0]](**dictionary)
+
+            for key, values in dictionary.items():
+                setattr(new_instance, key, values)
+
         storage.save()
         print(new_instance.id)
         storage.save()
@@ -206,7 +209,7 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         try:
-            del(storage.all()[key])
+            del (storage.all()[key])
             storage.save()
         except KeyError:
             print("** no instance found **")
@@ -338,6 +341,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
