@@ -125,7 +125,6 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-        dictionary = {}
         new_instance = HBNBCommand.classes[list_param[0]]()
 
         for param in list_param[1:]:
@@ -141,8 +140,8 @@ class HBNBCommand(cmd.Cmd):
             if '.' in value:
                 value = float(value)
 
-            for key, values in dictionary.items():
-                setattr(new_instance, key, values)
+            if value is not None:
+                setattr(new_instance, key, value)
 
         storage.save()
         print(new_instance.id)
