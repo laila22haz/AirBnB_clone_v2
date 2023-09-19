@@ -139,6 +139,9 @@ class HBNBCommand(cmd.Cmd):
 
             if '.' in value:
                 value = float(value)
+            
+            if isinstance(value, int):
+                value = int(value)
 
             if value is not None:
                 setattr(new_instance, key, value)
