@@ -6,7 +6,7 @@ from os import getenv
 
 storage_data = getenv("HBNB_TYPE_STORAGE")
 
-class Review(BaseModel):
+class Review(BaseModel, Base):
     """ Review classto store review information """
 
     __tablename__ = "reviews"
