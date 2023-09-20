@@ -9,13 +9,12 @@ storage_data = getenv("HBNB_TYPE_STORAGE")
 
 
 
-class City(BaseModel):
+class City(BaseModel, Base):
     """ The city class, contains state ID and name """
     __tablename__ = "cities"
     if storage_data == "db":
-        state_id =  Column(String(60), ForeignKey("states.id"), nullable=False)
         name = Column(String(128), nullable=False)
-        places = relationship('Place', cascade="all,delete", backref="cities")
+        state_id =  Column(String(60), ForeignKey("states.id"), nullable=False)
     else:
         name = ""
         state_id = ""

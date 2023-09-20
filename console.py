@@ -130,25 +130,25 @@ class HBNBCommand(cmd.Cmd):
         for param in list_param[1:]:
             key, value = param.split('=', 1)
 
-            if value.startswith('"'):
+            if value.startswith('"') and value.endswith('"'):
                 value = value.strip('"')
 
             if isinstance(value, str):
                 value = value.replace('_', ' ')
-                value = value.replace('"', '\\"')
+                #value = value.replace('"', '\\"')
+            try:
+                value = eval(value)
+            except:
+                pass
 
-            if '.' in value:
-                value = float(value)
-            
             if isinstance(value, int):
                 value = int(value)
 
             if value is not None:
                 setattr(new_instance, key, value)
 
-        storage.save()
+        new_instance.save()
         print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -230,11 +230,11 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 print_list.append(str(v))
 
         print(print_list)
