@@ -76,7 +76,7 @@ class Place(BaseModel, Base):
             amenlist = []
             amenAll = storage.all(Amenity)
             for amenity in amenAll.values():
-                if amenity.ids ini self.amenity_ids:
+                if amenity.ids in self.amenity_ids:
                     amenlist.append(amenity)
             return amenlist
 
