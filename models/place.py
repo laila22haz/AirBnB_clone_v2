@@ -58,30 +58,30 @@ class Place(BaseModel, Base):
         ongitude = 0.0
         amenity_ids = []
 
-    @property
-    def reviews(self):
-        """getter attribute reviews"""
-        from models import storage
-        rvwlst = []
-        rvwlstAll = storage.all(Review)
-        for review in rvwlstAll.values():
-            if review.place_id==self.id:
-                rvwlst.append(review)
-        return rvwlst
+        @property
+        def reviews(self):
+            """getter attribute reviews"""
+            from models import storage
+            rvwlst = []
+            rvwlstAll = storage.all(Review)
+            for review in rvwlstAll.values():
+                if review.place_id==self.id:
+                    rvwlst.append(review)
+            return rvwlst
 
-    @property
-    def amenities(self):
-        """Getter amenities"""
-        from models import storage
-        amenlist = []
-        amenAll = storage.all(Amenity)
-        for amenity in amenAll.values():
-            if amenity.ids in self.amenity_ids:
-                amenlist.append(amenity)
-        return amenlist
+        @property
+        def amenities(self):
+            """Getter amenities"""
+            from models import storage
+            amenlist = []
+            amenAll = storage.all(Amenity)
+            for amenity in amenAll.values():
+                if amenity.ids ini self.amenity_ids:
+                    amenlist.append(amenity)
+            return amenlist
 
-    @amenities.setter
-    def amenities(self, amenity):
-        """Setter amenities"""
-        if isinstance(amenity, Amenity):
-            self.amenity_ids.append(amenity.id)
+        @amenities.setter
+        def amenities(self, amenity):
+            """Setter amenities"""
+            if isinstance(amenity, Amenity):
+                self.amenity_ids.append(amenity.id)
