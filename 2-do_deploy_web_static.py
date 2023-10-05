@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-"""Fabric script that distributes an archive to your web servers"""
-
+"""Deploy archive"""
 
 from fabric.api import *
 from fabric.contrib import files
@@ -10,6 +9,7 @@ env.hosts = ['ubuntu@54.226.32.212', '52.201.179.163']
 
 
 def do_deploy(archive_path):
+    """Fabric script that distributes an archive to your web servers"""
     if not files.exists(archive_path):
         return False
     try:
