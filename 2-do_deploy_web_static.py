@@ -1,31 +1,35 @@
 #!/usr/bin/python3
-"""Deploy archive"""
+"""  script (based on the file 1-pack_web_static.py"""
+
 
 from fabric.api import *
-from fabric.contrib import files
 import os
 
+env.user = 'ubuntu'
 env.hosts = ['ubuntu@54.226.32.212', '52.201.179.163']
 
 
+@task
 def do_deploy(archive_path):
-    """Fabric script that distributes an archive to your web servers"""
-    if not files.exists(archive_path):
-        return False
+    """ method to deploy"""
     try:
-        archive_name = os.path.basename(archive_path)
-        archive_ext = os.path.splitext(archive_name)[0]
-        new_folder = '/data/web_static/\
-            releases/'.format(archive_ext)
-        put(archive_name, '/temp')
-        run('tar -xzf /tmp/{} -C /data/web_static\
-        /releases/{}'.format(archive_name, archive_ext))
-        run('rm -rf /temp/{}'.format(archive_name))
-        run('rm -rf {}'.format('/data/web_static/current'))
-        run('ln -s /data/web_static/releases\
-            /{}/' '/data/web_static/current\
-                '.format(archive_ext))
+        if not local("test -e {}".format(archive_path)).succeeded:
+            return False
+        file_withex = os.path.basename(archive_path)
+        file_noex, ex = os.path.splitext(file_withex)
+        put(archive_path, "/tmp/")
+        run("rm -f {}".format(archive_path))
+        run("mkdir -p /data/web_static/releases/{}/".format(file_noex))
+        run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/"
+            .format(file_withex, file_noex))
+        run("rm /tmp/{}".format(file_withex))
+        run("mv /data/web_static/releases/{0}/web_static/* "
+            "/data/web_static/releases/{0}/".format(file_noex))
+        run("rm -rf /data/web_static/releases/{}/web_static".format(file_noex))
+        run("rm -rf /data/web_static/current")
+        run("ln -s /data/web_static/releases/{}/ "
+            "/data/web_static/current".format(file_noex))
         print("New version deployed!")
         return True
-    except Exception as e:
+    except Exception:
         return False
