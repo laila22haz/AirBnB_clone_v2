@@ -20,7 +20,11 @@ def do_pack():
     mkdir = "mkdir -p versions"
     archive_path = "versions/{}".format(file_name)
     print("Packing web_static to {}".format(archive_path))
-    local("{}&& tar -cvzf {} web_static".format(mkdir, archive_path))
+    if local("{} && tar -cvzf {} web_static"
+             .format(mkdir, archive_path)).succeeded:
+        return archive_path
+        print("web_static packed: {} -> {}Bytes".format(path, size))
+    return None
 
 
 @task
