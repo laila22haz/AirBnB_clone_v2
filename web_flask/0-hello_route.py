@@ -1,4 +1,8 @@
 #!/usr/bin/python3
+"""
+This module defines a simple Flask application that greets the user.
+"""
+
 from flask import Flask
 
 app = Flask(__name__)
