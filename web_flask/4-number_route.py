@@ -62,7 +62,7 @@ def is_integer(n):
     Returns:
         str: A simple greeting message.
     """
-    return f'%d  is a number' % n
+    return f'%d is a number' % n
 
 
 if __name__ == '__main__':
