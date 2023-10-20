@@ -44,7 +44,7 @@ def C_is_fun(text):
 
 @app.route("/python/")
 @app.route("/python/<text>", strict_slashes=False)
-def Python_cool(text = 'is cool'):
+def Python_cool(text='is cool'):
     """
     This function handles the root URL of the Flask application.
 
@@ -52,6 +52,7 @@ def Python_cool(text = 'is cool'):
         str: A simple greeting message.
     """
     return f'Python %s' % text.replace('_', ' ')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
