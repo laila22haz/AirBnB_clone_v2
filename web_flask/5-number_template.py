@@ -64,6 +64,7 @@ def is_integer(n):
     """
     return f'%d is a number' % n
 
+
 @app.route("/number_template/<int:n>", strict_slashes=False)
 def num_templete(n=None):
     """
