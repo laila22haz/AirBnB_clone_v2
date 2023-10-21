@@ -12,6 +12,7 @@ from models.amenity import Amenity
 from models.review import Review
 from models.base_model import Base
 
+
 class DBStorage:
     """ class definition """
 
@@ -30,24 +31,24 @@ class DBStorage:
         self.__engine = create_engine(db_url, pool_pre_ping=True)
 
         if hb_env == "test":
-             Base.metadata.drop_all(self.__engine)
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-                """query all classes or specific one"""
-                allClasses = [User, State, City, Place, Amenity, Review]
-                result = {}
-                if cls is not None:
-                    for obj in self.__session.query(cls).all():
+        """query all classes or specific one"""
+        allClasses = [User, State, City, Place, Amenity, Review]
+        result = {}
+        if cls is not None:
+            for obj in self.__session.query(cls).all():
+                ClassName = obj.__class__.__name__
+                keyName = ClassName + "." + obj.id
+                result[keyName] = obj
+            else:
+                for clss in allClasses:
+                    for obj in self.__session.query(clss).all():
                         ClassName = obj.__class__.__name__
                         keyName = ClassName + "." + obj.id
                         result[keyName] = obj
-                else:
-                    for clss in allClasses:
-                        for obj in self.__session.query(clss).all():
-                            ClassName = obj.__class__.__name__
-                            keyName = ClassName + "." + obj.id
-                            result[keyName] = obj
-                return result
+            return result
 
     def new(self, obj):
         """add new obj"""
