@@ -12,6 +12,18 @@ from models.state import State
 app = Flask(__name__)
 
 
+@app.route("/states_list", strict_slashes=False)
+def states_list():
+    """
+    This function handles the root URL of the Flask application.
+
+    Returns:
+        str: HTML page with list of states.
+    """
+    states = storage.all(State).values()
+    return render_template('7-states_list.html', states=states)
+
+
 @app.route("/cities_by_states", strict_slashes=False)
 def states_list():
     """
