@@ -6,6 +6,7 @@ This module defines Flask application.
 from flask import Flask, app, render_template
 from models import storage
 from models.state import State
+#from models.city import City
 
 
 app = Flask(__name__)
@@ -20,12 +21,13 @@ def states_list():
         str: HTML page with list of Cities by states.
     """
     states = storage.all(State).values()
-    
-    return render_template('8-cities_by_states.html', states=states)
+    #cities = storage.all(City).values()
+    return render_template('8-cities_by_states.html\
+                           ', states=states)
 
 
 @app.teardown_appcontext
-def after_request(response):
+def after_request(_):
     storage.close()
 
 
