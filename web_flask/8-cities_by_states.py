@@ -7,6 +7,7 @@ from flask import Flask, app, render_template
 from models import storage
 from models.state import State
 
+
 app = Flask(__name__)
 
 
@@ -19,6 +20,7 @@ def states_list():
         str: HTML page with list of Cities by states.
     """
     states = storage.all(State).values()
+    
     return render_template('8-cities_by_states.html', states=states)
 
 
