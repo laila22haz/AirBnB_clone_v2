@@ -1,25 +1,32 @@
 #!/usr/bin/python3
-""" Starts a Flask web application"""""
+"""
+This module defines Flask application.
+"""
 
-from flask import *
+from flask import Flask, app, render_template
 from models import storage
 from models.state import State
-from models.city import City
+
 app = Flask(__name__)
 
 
 @app.route("/cities_by_states", strict_slashes=False)
 def cities_by_states():
-    states = storage.all(State).values()
+    """
+    Display a list of states and their associated cities.
+
+    Returns:
+        str: HTML page with the list of states and cities.
+    """
+    data = storage.all(State)
+    states = data.values()
     return render_template('8-cities_by_states.html', states=states)
 
 
 @app.teardown_appcontext
-def teardown_db(self):
-    """Remove the current SQLAlchemy Session"""
+def close_session(exeption):
     storage.close()
 
 
 if __name__ == '__main__':
-    """ Makes the app run when called from the command line"""
     app.run(host='0.0.0.0', port=5000)
