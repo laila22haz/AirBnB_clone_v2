@@ -42,13 +42,13 @@ class DBStorage:
                 ClassName = obj.__class__.__name__
                 keyName = ClassName + "." + obj.id
                 result[keyName] = obj
-            else:
-                for clss in allClasses:
-                    for obj in self.__session.query(clss).all():
-                        ClassName = obj.__class__.__name__
-                        keyName = ClassName + "." + obj.id
-                        result[keyName] = obj
-            return result
+        else:
+            for clss in allClasses:
+                for obj in self.__session.query(clss).all():
+                    ClassName = obj.__class__.__name__
+                    keyName = ClassName + "." + obj.id
+                    result[keyName] = obj
+        return result
 
     def new(self, obj):
         """add new obj"""
